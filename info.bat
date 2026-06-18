@@ -38,6 +38,6 @@ powershell .\9-sitiosweb.ps1
 del .\resultados\*.db > nul
 
 echo.
-echo --- FIN DEL ANµLISIS ---
+echo --- FIN DEL AN√ÅLISIS ---
 echo.
 exit
