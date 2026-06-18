@@ -1,0 +1,1 @@
+Get-LocalUser | Out-File .\resultados\3-usuarios.txt -Encoding utf8
