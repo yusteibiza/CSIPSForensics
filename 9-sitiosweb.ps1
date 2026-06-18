@@ -1,27 +1,61 @@
-Add-Type -AssemblyName System.Data
-
-function Get-ChromiumHistory($path, $browser) {
-    if (!(Test-Path $path)) { return }
-
-    $query = "SELECT url, title, visit_count, last_visit_time FROM urls ORDER BY last_visit_time DESC LIMIT 20"
-
-    $conn = New-Object System.Data.SQLite.SQLiteConnection("Data Source=$path;Version=3;")
-    $conn.Open()
-
-    $cmd = $conn.CreateCommand()
-    $cmd.CommandText = $query
-
-    $adapter = New-Object System.Data.SQLite.SQLiteDataAdapter $cmd
-    $dt = New-Object System.Data.DataTable
-    $adapter.Fill($dt) | Out-Null
-
-    $dt | Select-Object @{n="Browser";e={$browser}}, url, title, visit_count
+if (!(Test-Path ".\resultados")) {
+    New-Item -ItemType Directory ".\resultados" -Force | Out-Null
 }
 
-$resultado = @()
+$sqlite = ".\sqlite3.exe"
 
-$resultado += Get-ChromiumHistory "$env:LOCALAPPDATA\Microsoft\Edge\User Data\Default\History" "Edge"
-$resultado += Get-ChromiumHistory "$env:LOCALAPPDATA\Google\Chrome\User Data\Default\History" "Chrome"
+# ==========================
+# EDGE
+# ==========================
+$edge = "$env:LOCALAPPDATA\Microsoft\Edge\User Data\Default\History"
 
-$resultado |
-Out-File ".\resultados\9-sitiosweb.txt" -Encoding utf8
+if (Test-Path $edge) {
+    Copy-Item $edge ".\resultados\edge.db" -Force
+
+    & $sqlite ".\resultados\edge.db" `
+    "SELECT url,
+            title,
+            datetime((last_visit_time/1000000)-11644473600,'unixepoch','localtime') as Fecha
+     FROM urls
+     ORDER BY last_visit_time DESC
+     LIMIT 50;" | Out-File ".\resultados\91-sitiosweb_edge.txt" -Encoding utf8
+}
+
+# ==========================
+# CHROME
+# ==========================
+$chrome = "$env:LOCALAPPDATA\Google\Chrome\User Data\Default\History"
+
+if (Test-Path $chrome) {
+    Copy-Item $chrome ".\resultados\chrome.db" -Force
+
+    & $sqlite ".\resultados\chrome.db" `
+    "SELECT url,
+            title,
+            datetime((last_visit_time/1000000)-11644473600,'unixepoch','localtime') as Fecha
+     FROM urls
+     ORDER BY last_visit_time DESC
+     LIMIT 50;" | Out-File ".\resultados\92-sitiosweb_chrome.txt" -Encoding utf8
+}
+
+# ==========================
+# FIREFOX
+# ==========================
+$ffProfile = Get-ChildItem "$env:APPDATA\Mozilla\Firefox\Profiles" -Directory -ErrorAction SilentlyContinue |
+             Select-Object -First 1
+
+if ($ffProfile) {
+    $ffdb = "$($ffProfile.FullName)\places.sqlite"
+
+    if (Test-Path $ffdb) {
+        Copy-Item $ffdb ".\resultados\firefox.db" -Force
+
+        & $sqlite ".\resultados\firefox.db" `
+        "SELECT url,
+                title,
+                datetime(last_visit_date/1000000,'unixepoch','localtime') as Fecha
+         FROM moz_places
+         ORDER BY last_visit_date DESC
+         LIMIT 50;" | Out-File ".\resultados\93-sitiosweb_firefox.txt" -Encoding utf8
+    }
+}
