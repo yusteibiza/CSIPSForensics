@@ -18,7 +18,7 @@ if (Test-Path $edge) {
             datetime((last_visit_time/1000000)-11644473600,'unixepoch','localtime') as Fecha
      FROM urls
      ORDER BY last_visit_time DESC
-     LIMIT 50;" | Out-File ".\resultados\091-sitiosweb_edge.txt" -Encoding utf8
+     LIMIT 50;" | Out-File ".\resultados\0101-sitiosweb_edge.txt" -Encoding utf8
 }
 
 # ==========================
@@ -35,7 +35,7 @@ if (Test-Path $chrome) {
             datetime((last_visit_time/1000000)-11644473600,'unixepoch','localtime') as Fecha
      FROM urls
      ORDER BY last_visit_time DESC
-     LIMIT 50;" | Out-File ".\resultados\092-sitiosweb_chrome.txt" -Encoding utf8
+     LIMIT 50;" | Out-File ".\resultados\0102-sitiosweb_chrome.txt" -Encoding utf8
 }
 
 # ==========================
@@ -56,6 +56,6 @@ if ($ffProfile) {
                 datetime(last_visit_date/1000000,'unixepoch','localtime') as Fecha
          FROM moz_places
          ORDER BY last_visit_date DESC
-         LIMIT 50;" | Out-File ".\resultados\093-sitiosweb_firefox.txt" -Encoding utf8
+         LIMIT 50;" | Out-File ".\resultados\0103-sitiosweb_firefox.txt" -Encoding utf8
     }
 }

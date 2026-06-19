@@ -12,4 +12,4 @@ $cs = Get-CimInstance Win32_ComputerSystem
     Propietario         = $os.RegisteredUser
     Fabricante          = $cs.Manufacturer
     Modelo              = $cs.Model
-} | Out-File ".\resultados\2-info_sistema.txt" -Encoding utf8
+} | Out-File ".\resultados\02-info_sistema.txt" -Encoding utf8

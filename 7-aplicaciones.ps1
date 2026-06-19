@@ -6,4 +6,4 @@ Get-ItemProperty $paths |
 Where-Object DisplayName |
 Select-Object DisplayName, DisplayVersion, Publisher, InstallDate |
 Sort-Object DisplayName |
-Out-File ".\resultados\7-aplicaciones.txt" -Encoding utf8
+Out-File ".\resultados\07-aplicaciones.txt" -Encoding utf8
