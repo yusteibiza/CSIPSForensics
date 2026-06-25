@@ -1,15 +1,12 @@
-﻿
 
-Equipo           : PC-YUSTE
+Equipo           : WIN11-FS-VM
 Sistema          : Microsoft Windows 11 Pro
 Version          : 10.0.26200
 Build            : 26200
 Arquitectura     : 64 bits
-FechaInstalacion : 25/11/2024 18:50:36
-UltimoArranque   : 10/06/2026 12:08:23
+FechaInstalacion : 23/06/2026 12:55:06
+UltimoArranque   : 23/06/2026 13:59:09
 Propietario      : 
-Fabricante       : ASUS
-Modelo           : System Product Name
-
-
+Fabricante       : VMware, Inc.
+Modelo           : VMware20,1
 

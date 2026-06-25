@@ -1,6 +1,8 @@
 
-$outDir = ".\resultados"
-$outFile = Join-Path $outDir "011-busquedas_explorer.txt"
+$scriptDir = $PSScriptRoot
+if (-not $scriptDir) { $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path }
+$outDir = Join-Path $scriptDir "resultados"
+$outFile = Join-Path $outDir "012-appcorreo.txt"
 
 $utf8 = New-Object System.Text.UTF8Encoding $false
 
@@ -10,65 +12,85 @@ if (!(Test-Path $outDir)) {
 
 [System.IO.File]::WriteAllText(
     $outFile,
-    "=== Inicio extracción WordWheelQuery $(Get-Date) ===`r`n`r`n",
+    "=== Clientes de correo detectados $(Get-Date) ===`r`n`r`n",
     $utf8
 )
 
+# =========================
+# OUTLOOK (Office clásico)
+# =========================
+$outlook = @(
+    "HKLM:\SOFTWARE\Microsoft\Office",
+    "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Office"
+)
+
+foreach ($path in $outlook) {
+    if (Test-Path $path) {
+        [System.IO.File]::AppendAllText(
+            $outFile,
+            "Outlook (Microsoft Office) detectado`r`n",
+            $utf8
+        )
+        break
+    }
+}
+
+# =========================
+# NEW OUTLOOK / MAIL APP (UWP)
+# =========================
+$mailApp = Get-AppxPackage *microsoft.windowscommunicationsapps* -ErrorAction SilentlyContinue
+
+if ($mailApp) {
+    [System.IO.File]::AppendAllText(
+        $outFile,
+        "Windows Mail / Calendario detectado`r`n",
+        $utf8
+    )
+}
+
+$newOutlook = Get-AppxPackage *outlookforwindows* -ErrorAction SilentlyContinue
+
+if ($newOutlook) {
+    [System.IO.File]::AppendAllText(
+        $outFile,
+        "New Outlook detectado`r`n",
+        $utf8
+    )
+}
+
+# =========================
+# THUNDERBIRD
+# =========================
 $profiles = Get-ChildItem "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList"
 
 foreach ($p in $profiles) {
 
-    $sid = $p.PSChildName
     $profilePath = (Get-ItemProperty $p.PSPath -ErrorAction SilentlyContinue).ProfileImagePath
 
     if (-not $profilePath) { continue }
 
-    $user = Split-Path $profilePath -Leaf
+    $tb = Join-Path $profilePath "AppData\Roaming\Thunderbird"
 
-    $hkUser = "Registry::HKEY_USERS\$sid"
-    $regPath = "$hkUser\Software\Microsoft\Windows\CurrentVersion\Explorer\WordWheelQuery"
+    if (Test-Path $tb) {
 
-    if (!(Test-Path $regPath)) {
-        continue
-    }
+        $user = Split-Path $profilePath -Leaf
+        $text = "Thunderbird detectado (usuario: $user)`r`n"
 
-    try {
+        $ini = Join-Path $tb "profiles.ini"
 
-        $data = Get-ItemProperty $regPath -ErrorAction Stop
-
-        $text = "Usuario: $user`r`nSID: $sid`r`n--------------------------`r`n"
-
-        $found = $false
-
-        foreach ($prop in $data.PSObject.Properties) {
-            if ($prop.Name -match '^\d+$' -and $prop.Value) {
-                $text += "$($prop.Value)`r`n"
-                $found = $true
-            }
+        if (Test-Path $ini) {
+            $text += "Perfil activo encontrado`r`n"
         }
-
-        if (-not $found) {
-            $text += "Sin búsquedas registradas`r`n"
-        }
-
-        $text += "`r`n"
 
         [System.IO.File]::AppendAllText($outFile, $text, $utf8)
     }
-    catch {
-        $msg = $_.Exception.Message
-        if (-not $msg) { $msg = "Error desconocido" }
-
-        [System.IO.File]::AppendAllText(
-            $outFile,
-            "Error en ${user}: ${msg}`r`n`r`n",
-            $utf8
-        )
-    }
 }
 
+# =========================
+# FINAL
+# =========================
 [System.IO.File]::AppendAllText(
     $outFile,
-    "`r`n=== Fin extracción ===`r`n",
+    "`r`n=== Fin ===`r`n",
     $utf8
 )

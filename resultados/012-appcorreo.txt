@@ -1,46 +1,8 @@
-=== Correo predeterminado (HKEY_USERS) 06/19/2026 10:42:39 ===
+=== Clientes de correo detectados 06/24/2026 10:21:21 ===
 
-Usuario: systemprofile
-SID: S-1-5-18
-----------------------
-Outlook/Office detectado
+Outlook (Microsoft Office) detectado
+New Outlook detectado
+Thunderbird detectado (usuario: Administrador)
+Perfil activo encontrado
 
-Usuario: LocalService
-SID: S-1-5-19
-----------------------
-Sin cliente de correo detectado
-
-Usuario: NetworkService
-SID: S-1-5-20
-----------------------
-Sin cliente de correo detectado
-
-Usuario: Yuste
-SID: S-1-5-21-127761273-246687943-1526783148-1002
-----------------------
-Correo predeterminado: Mozilla Thunderbird
-mailto: Thunderbird.Url.mailto
-Outlook/Office detectado
-Thunderbird detectado
-
-Usuario: CSI
-SID: S-1-5-21-127761273-246687943-1526783148-1005
-----------------------
-mailto: AppXbx2ce4vcxjdhff3d1ms66qqzk12zn827
-Outlook/Office detectado
-
-Usuario: SQLTELEMETRY
-SID: S-1-5-80-2652535364-2169709536-2857650723-2622804123-1107741775
-----------------------
-Sin cliente de correo detectado
-
-Usuario: SQLSERVERAGENT
-SID: S-1-5-80-344959196-2060754871-2302487193-2804545603-1466107430
-----------------------
-Sin cliente de correo detectado
-
-Usuario: MSSQLSERVER
-SID: S-1-5-80-3880718306-3832830129-1677859214-2598158968-1052248003
-----------------------
-Sin cliente de correo detectado
-
+=== Fin ===

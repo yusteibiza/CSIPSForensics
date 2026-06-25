@@ -1,4 +1,27 @@
-=== Google Drive Forensic 06/19/2026 11:41:49 ===
+=== Cuentas Google + Google Drive 06/24/2026 10:27:23 ===
+
+Usuario: systemprofile
+----------------------
+Sin cuentas Google detectadas
+
+Usuario: LocalService
+----------------------
+Sin cuentas Google detectadas
+
+Usuario: NetworkService
+----------------------
+Sin cuentas Google detectadas
+
+Usuario: defaultuser0
+----------------------
+Sin cuentas Google detectadas
+
+Usuario: Administrador
+----------------------
+  Login Data encontrado (Chrome/Default): C:\Users\Administrador\AppData\Local\Google\Chrome\User Data\Default\Login Data
+  Chrome (Edge/Default): yusteibiza@outlook.es
+  Chrome GAIA ID (Edge): 9cd39df6f6ad3240
+  Login Data encontrado (Edge/Default): C:\Users\Administrador\AppData\Local\Microsoft\Edge\User Data\Default\Login Data
 
 
 === Fin ===

@@ -1,4 +1,6 @@
-=== Análisis timestamps DOCX (renuncia) 06/19/2026 11:41:50 ===
+ -- Marcas de tiempo archivo de renuncia --
 
-
-=== Fin análisis ===
+- Nombre .............: docrenuncia.docx
+- Fecha creación .....: 24/06/2026
+- Última modificación : 24/06/2026
+- Último acceso ......: 24/06/2026
